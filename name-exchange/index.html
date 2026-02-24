@@ -1,27 +1,40 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Name Exchange — Burlesque Registry (Mock)</title>
-    <link rel="stylesheet" href="https://www.burlesqueregistry.com/assets/index-978daf79.css">
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              "purple-1": "#8b5cf6",
-              "blue-gray-900": "#0f172a",
-              "blue-gray-700": "#334155",
-              "blue-gray-500": "#64748b",
-              "blue-gray-400": "#94a3b8",
-              "deep-purple-500": "#7c3aed",
-            },
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Name Exchange — Burlesque Registry (Mock)</title>
+
+  <!-- Load Tailwind FIRST -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Tailwind config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            "purple-1": "#8b5cf6",
+            "blue-gray-900": "#0f172a",
+            "blue-gray-700": "#334155",
+            "blue-gray-500": "#64748b",
+            "blue-gray-400": "#94a3b8",
+            "deep-purple-500": "#7c3aed",
           },
         },
-      };
-    </script>
-  </head>
+      },
+    };
+  </script>
+
+  <!-- THEN load your real site CSS -->
+  <link
+    rel="stylesheet"
+    href="https://www.burlesqueregistry.com/assets/index-978daf79.css"
+  />
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="https://www.burlesqueregistry.com/icos/favicon-32.png" />
+</head>
 
   <body class="min-h-screen bg-neutral-950 text-neutral-100">
     <!-- Nav (simple mock) -->
