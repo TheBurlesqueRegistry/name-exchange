@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Name Exchange — Burlesque Registry (Mock)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "purple-1": "#8b5cf6",
+              "blue-gray-900": "#0f172a",
+              "blue-gray-700": "#334155",
+              "blue-gray-500": "#64748b",
+              "blue-gray-400": "#94a3b8",
+              "deep-purple-500": "#7c3aed",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+
+  <body class="min-h-screen bg-neutral-950 text-neutral-100">
+    <!-- Nav (simple mock) -->
+    <header class="border-b border-white/10 bg-neutral-950/60 backdrop-blur">
+      <nav class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 md:px-8">
+        <a href="../" class="flex items-center gap-3">
+          <div class="h-9 w-9 rounded-xl bg-purple-600/30 ring-1 ring-purple-500/40"></div>
+          <div class="leading-tight">
+            <div class="text-sm font-semibold">Burlesque Registry</div>
+            <div class="text-xs text-white/60">Name Exchange (Mock)</div>
+          </div>
+        </a>
+
+        <div class="hidden items-center gap-6 md:flex">
+          <a class="font-semibold hover:text-purple-1" href="/performers">Performers</a>
+          <a class="font-semibold hover:text-purple-1" href="/shows">Shows</a>
+          <a class="font-semibold hover:text-purple-1" href="/faqs">FAQs</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="mx-auto max-w-6xl px-4 py-10 md:px-8">
+      <div class="flex flex-col gap-6">
+        <div class="rounded-2xl border border-white/10 bg-white/5 p-6 md:p-8">
+          <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <div>
+              <h1 class="text-3xl font-bold tracking-tight">Take a Name, Leave a Name</h1>
+              <p class="mt-2 max-w-2xl text-white/70">
+                Browse names donated by performers. Click <span class="font-semibold text-white">Claim</span> to open the
+                “Register Name” modal (mock).
+              </p>
+            </div>
+
+            <div class="flex gap-3">
+              <input
+                id="filter"
+                class="w-full rounded-xl border border-white/10 bg-neutral-900 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-purple-400/40 md:w-80"
+                placeholder="Search names or donors…"
+              />
+              <button
+                id="reset"
+                class="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold hover:bg-white/10"
+              >
+                Reset
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+          <div class="overflow-x-auto">
+            <table class="min-w-full text-left text-sm">
+              <thead class="bg-white/5 text-white/80">
+                <tr>
+                  <th class="px-5 py-4 font-semibold">Available Name</th>
+                  <th class="px-5 py-4 font-semibold">Given by</th>
+                  <th class="px-5 py-4 font-semibold"> </th>
+                </tr>
+              </thead>
+              <tbody id="rows" class="divide-y divide-white/10"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Toast -->
+    <div
+      id="toast"
+      class="pointer-events-none fixed bottom-6 left-1/2 hidden -translate-x-1/2 rounded-xl border border-white/10 bg-neutral-900 px-4 py-3 text-sm text-white shadow"
+    ></div>
+
+    <!-- Modal Backdrop -->
+    <div id="backdrop" class="fixed inset-0 hidden bg-black/70 p-4">
+      <div class="mx-auto mt-10 w-full max-w-3xl overflow-hidden rounded-2xl border border-white/10 bg-neutral-950 shadow-2xl">
+        <!-- Modal Header (styled like your snippet) -->
+        <header class="relative border-b border-white/10 px-6 py-5">
+          <h2 class="select-none text-center text-2xl font-bold sm:mx-16">Register Name</h2>
+          <button
+            type="button"
+            id="closeModal"
+            class="absolute right-4 top-4 rounded-full bg-[#888888]/40 p-1 hover:bg-purple-600/40"
+            aria-label="Close"
+          >
+            <svg viewBox="0 0 24 24" class="h-6 w-6 text-white/90" fill="none" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12M18 6L6 18" />
+            </svg>
+          </button>
+        </header>
+
+        <div class="mt-2 flex flex-col gap-5 px-6 pb-6 md:w-[700px] md:mx-auto">
+          <h6 class="block font-sans text-base font-semibold leading-relaxed text-white">General Information</h6>
+
+          <!-- Name (prefilled from row) -->
+          <div class="relative w-full min-w-[200px]">
+            <input
+              id="modalName"
+              name="name"
+              class="peer w-full bg-transparent text-white outline outline-0 transition-all placeholder-shown:border
+                border border-white/15 focus:border-2 focus:border-purple-500 text-sm px-3 py-3 rounded-md"
+              placeholder=" "
+            />
+            <label
+              class="pointer-events-none absolute left-3 top-1.5 text-[11px] text-white/60 peer-placeholder-shown:top-3 peer-placeholder-shown:text-sm peer-placeholder-shown:text-white/45 transition-all"
+            >
+              Name
+            </label>
+          </div>
+
+          <p class="text-sm text-deep-purple-500 -mt-2 flex items-center gap-x-1 font-medium">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"></path>
+            </svg>
+            (Mock) This would register the claimed stage name to the user.
+          </p>
+
+          <div class="flex gap-4 max-sm:flex-col">
+            <div class="flex-1">
+              <div class="relative w-full min-w-[200px]">
+                <input
+                  id="modalEmail"
+                  name="email"
+                  class="peer w-full bg-transparent text-white outline outline-0 transition-all placeholder-shown:border
+                    border border-white/15 focus:border-2 focus:border-purple-500 text-sm px-3 py-3 rounded-md"
+                  placeholder=" "
+                />
+                <label
+                  class="pointer-events-none absolute left-3 top-1.5 text-[11px] text-white/60 peer-placeholder-shown:top-3 peer-placeholder-shown:text-sm peer-placeholder-shown:text-white/45 transition-all"
+                >
+                  Email
+                </label>
+              </div>
+            </div>
+
+            <div class="flex-1">
+              <div class="relative w-full min-w-[200px]">
+                <input
+                  id="modalDonor"
+                  name="donor"
+                  class="peer w-full bg-transparent text-white outline outline-0 transition-all placeholder-shown:border
+                    border border-white/15 focus:border-2 focus:border-purple-500 text-sm px-3 py-3 rounded-md"
+                  placeholder=" "
+                  disabled
+                />
+                <label
+                  class="pointer-events-none absolute left-3 top-1.5 text-[11px] text-white/60 peer-placeholder-shown:top-3 peer-placeholder-shown:text-sm peer-placeholder-shown:text-white/45 transition-all"
+                >
+                  Given by
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <hr class="border-white/10" />
+
+          <div class="flex items-center justify-between gap-4 max-sm:flex-col">
+            <p class="text-sm text-white/60">
+              Clicking <span class="font-semibold text-white">Register</span> will “claim” the name in this mock and disable the button.
+            </p>
+
+            <button
+              id="registerBtn"
+              class="w-full sm:w-auto rounded-lg bg-emerald-500 px-5 py-3 text-sm font-extrabold text-black shadow hover:brightness-110"
+              type="button"
+            >
+              Register
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // 50 playful, classic-burlesque-ish puns
+      const seed = [
+        ["Velvet Vandal", "Ruby Rumor"],
+        ["Gilda Glitterknife", "Chandy Rose"],
+        ["Lola Larceny", "Amanita Coffyn"],
+        ["Pearl Harborline", "Venus Fur"],
+        ["Honey Hushmoney", "Copper Penny"],
+        ["Minnie Mischief", "Canary Sol"],
+        ["Fanny Fiasco", "Bubblegum Spaceslut"],
+        ["Dottie Decadence", "Rose Goldfish"],
+        ["Rita Razzle", "Phoenyx Fyre"],
+        ["Coco Catastrophe", "God Syndrome"],
+        ["Trixie Tipple", "Ruby Rumor"],
+        ["Vivi Vavoom", "Chandy Rose"],
+        ["Belle of the Brawl", "Amanita Coffyn"],
+        ["Satin Siren", "Venus Fur"],
+        ["Moxie Malaise", "Copper Penny"],
+        ["Cherry Charade", "Canary Sol"],
+        ["Gloria Gimmick", "Bubblegum Spaceslut"],
+        ["Penny Dreadful-ish", "Rose Goldfish"],
+        ["Miss Demeanor", "Phoenyx Fyre"],
+        ["Diva Delinquent", "God Syndrome"],
+        ["Bambi Breakaway", "Ruby Rumor"],
+        ["Opal Oopsie", "Chandy Rose"],
+        ["Kitty Committease", "Amanita Coffyn"],
+        ["Luxe Lollygag", "Venus Fur"],
+        ["Dahlia Doubletake", "Copper Penny"],
+        ["Sable Sideshow", "Canary Sol"],
+        ["Ginger Snapback", "Bubblegum Spaceslut"],
+        ["Roxy Rumpus", "Rose Goldfish"],
+        ["Marilyn Mayhem", "Phoenyx Fyre"],
+        ["Queenie Quips", "God Syndrome"],
+        ["Fleur de Tease", "Ruby Rumor"],
+        ["Sassy Sassafras", "Chandy Rose"],
+        ["Bettie Batter-Up", "Amanita Coffyn"],
+        ["Electra Evasion", "Venus Fur"],
+        ["Nina Nine-Lives", "Copper Penny"],
+        ["Vera Va-Va-Voom", "Canary Sol"],
+        ["Hazel Hooch", "Bubblegum Spaceslut"],
+        ["Stella Side-Eye", "Rose Goldfish"],
+        ["Luna Legerdemain", "Phoenyx Fyre"],
+        ["Daisy Doublecross", "God Syndrome"],
+        ["Mimi Misdirection", "Ruby Rumor"],
+        ["Wanda Wonderstruck", "Chandy Rose"],
+        ["Raven Ringleader", "Amanita Coffyn"],
+        ["Carmine Carmageddon", "Venus Fur"],
+        ["Nova Nonsense", "Copper Penny"],
+        ["Ivy Indecency", "Canary Sol"],
+        ["Poppy Problemchild", "Bubblegum Spaceslut"],
+        ["Zelda Zing", "Rose Goldfish"],
+        ["Violet Vice", "Phoenyx Fyre"],
+        ["Maxine Misbehave", "God Syndrome"],
+      ];
+
+      const rowsEl = document.getElementById("rows");
+      const filterEl = document.getElementById("filter");
+      const resetEl = document.getElementById("reset");
+
+      const backdrop = document.getElementById("backdrop");
+      const closeModal = document.getElementById("closeModal");
+      const registerBtn = document.getElementById("registerBtn");
+      const modalName = document.getElementById("modalName");
+      const modalEmail = document.getElementById("modalEmail");
+      const modalDonor = document.getElementById("modalDonor");
+      const toast = document.getElementById("toast");
+
+      let currentRowId = null;
+      const claimed = new Set(); // track claimed rows in mock
+
+      function showToast(msg) {
+        toast.textContent = msg;
+        toast.classList.remove("hidden");
+        clearTimeout(showToast._t);
+        showToast._t = setTimeout(() => toast.classList.add("hidden"), 1800);
+      }
+
+      function openModal({ id, name, donor }) {
+        currentRowId = id;
+        modalName.value = name;
+        modalDonor.value = donor;
+        modalEmail.value = "";
+        backdrop.classList.remove("hidden");
+      }
+
+      function closeIt() {
+        backdrop.classList.add("hidden");
+        currentRowId = null;
+      }
+
+      closeModal.addEventListener("click", closeIt);
+      backdrop.addEventListener("click", (e) => {
+        if (e.target === backdrop) closeIt();
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && !backdrop.classList.contains("hidden")) closeIt();
+      });
+
+      registerBtn.addEventListener("click", () => {
+        if (!currentRowId) return;
+        claimed.add(currentRowId);
+        closeIt();
+        render();
+        showToast("✨ (Mock) Name registered. Go forth and tease responsibly.");
+      });
+
+      function render() {
+        const q = (filterEl.value || "").toLowerCase().trim();
+
+        const filtered = seed
+          .map(([name, donor], idx) => ({ id: `row-${idx}`, name, donor }))
+          .filter((r) => (q ? (r.name + " " + r.donor).toLowerCase().includes(q) : true));
+
+        rowsEl.innerHTML = filtered
+          .map((r) => {
+            const isClaimed = claimed.has(r.id);
+            return `
+              <tr class="hover:bg-white/5">
+                <td class="px-5 py-4">
+                  <div class="font-semibold">${r.name}</div>
+                  <div class="text-xs text-white/50">${isClaimed ? "Claimed (Mock)" : "Available (Mock)"}</div>
+                </td>
+                <td class="px-5 py-4 text-white/80">${r.donor}</td>
+                <td class="px-5 py-4 text-right">
+                  ${
+                    isClaimed
+                      ? `<button class="cursor-not-allowed rounded-xl bg-white/10 px-4 py-2 text-sm font-bold text-white/40" disabled>Claimed</button>`
+                      : `<button data-id="${r.id}" data-name="${escapeHtml(r.name)}" data-donor="${escapeHtml(r.donor)}"
+                          class="claimBtn rounded-xl bg-purple-600 px-4 py-2 text-sm font-extrabold text-white shadow hover:brightness-110">
+                          Claim
+                        </button>`
+                  }
+                </td>
+              </tr>
+            `;
+          })
+          .join("");
+
+        document.querySelectorAll(".claimBtn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            openModal({
+              id: btn.dataset.id,
+              name: btn.dataset.name,
+              donor: btn.dataset.donor,
+            });
+          });
+        });
+      }
+
+      function escapeHtml(str) {
+        return String(str)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      resetEl.addEventListener("click", () => {
+        filterEl.value = "";
+        render();
+      });
+      filterEl.addEventListener("input", render);
+
+      render();
+    </script>
+  </body>
+</html>
