@@ -39,26 +39,127 @@
       </nav>
     </header>
 
-    <main class="mx-auto max-w-6xl px-4 py-10 md:px-8">
-      <div class="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-[0_0_0_1px_rgba(255,255,255,0.03)] md:p-10">
-        <h1 class="text-3xl font-bold tracking-tight md:text-4xl">The Burlesque Registry</h1>
-        <p class="mt-3 max-w-2xl text-white/70">
-          Welcome to the Burlesque Registry! This is a site where you can register your performer name, a burlesque school, or festival for others to find and reference. The Burlesque Registry does not arbitrate who owns names, nor claims any ownership to them. This site is simply a repository to help performers find new and unique names along with providing resources to find places to grow.
+<main>
+  <!-- HERO -->
+  <div class="mx-auto mb-16 max-w-[800px] px-8 pt-16">
+    <h1 class="text-center text-6xl font-semibold leading-[4rem] tracking-tight">
+      The <span class="text-purple-1">Burlesque</span> Registry
+    </h1>
+
+    <p class="mt-8 text-center text-xl leading-7">
+      Welcome to the Burlesque Registry! This is a site where you can register your
+      performer name, a burlesque school, or festival for others to find and reference.
+      The Burlesque Registry does not arbitrate who owns names, nor claims any ownership
+      to them. This site is simply a repository to help performers find new and unique
+      names along with providing resources to find places to grow.
+    </p>
+
+    <!-- NEW NAME EXCHANGE CTA -->
+    <div class="mt-10 flex justify-center">
+      <a href="./name-exchange/" class="inline-flex">
+        <button
+          class="rounded-lg bg-emerald-500 px-6 py-3 text-base font-semibold text-black shadow transition-shadow hover:shadow-xl hover:brightness-110"
+        >
+          ✨ NEW! Name Exchange
+        </button>
+      </a>
+    </div>
+  </div>
+
+  <!-- CARDS -->
+  <section class="flex justify-center px-8 pb-40">
+    <div class="grid grid-rows-[1fr_1fr] gap-4 md:grid-cols-[1fr_1fr] md:[&>div]:max-w-[300px]">
+
+      <!-- Performers -->
+      <div class="rounded-xl bg-[#EFE1EF] px-4 pb-4 pt-5">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#ED03EC" viewBox="0 0 256 256" class="mb-6">
+          <path d="M168,12A75.9,75.9,0,0,0,92.49,96.33L23.91,189.85a19.89,19.89,0,0,0,2,26l14.29,14.29a19.89,19.89,0,0,0,26,2l93.52-68.58A76,76,0,1,0,168,12Z"></path>
+        </svg>
+
+        <h2 class="text-lg font-semibold">Performers</h2>
+        <p class="mt-3 text-sm leading-[1.2rem] text-[#2F343C]">
+          Here's where you can register your stage name and associate it with any
+          troupe(s). Feel free to add links to your socials, performer photos, and let
+          us know who you are.
         </p>
 
-        <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-          <a
-            href="./name-exchange/"
-            class="inline-flex items-center justify-center rounded-xl bg-emerald-500 px-5 py-3 font-bold text-black shadow hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-emerald-300/60"
-          >
-            💚 NEW! Name Exchange
+        <div class="flex justify-center">
+          <a href="/performers">
+            <button class="mt-4 rounded-lg bg-purple-1/50 px-4 py-2 text-sm font-semibold shadow transition-shadow hover:shadow-xl">
+              View Performers
+            </button>
           </a>
-
-          <span class="text-sm text-white/50">
-            (Mock) Browse donated names and claim one to “register” it.
-          </span>
         </div>
       </div>
-    </main>
+
+      <!-- Shows -->
+      <div class="rounded-xl bg-[#EFE1EF] px-4 pb-4 pt-5">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#ED03EC" viewBox="0 0 256 256" class="mb-6">
+          <path d="M232.28,71.32a12,12,0,0,0-7-3.25L205.13,212.58A19.92,19.92,0,0,1,185.66,228H70.34a19.92,19.92,0,0,1-19.47-15.42Z"></path>
+        </svg>
+
+        <h2 class="text-lg font-semibold">Shows</h2>
+        <p class="mt-3 text-sm leading-[1.2rem] text-[#2F343C]">
+          Register any upcoming shows here! Add a poster image, your cast, venue and
+          time. If your cast has already registered with us, we'll highlight it in
+          their profile!
+        </p>
+
+        <div class="flex justify-center">
+          <a href="/shows">
+            <button class="mt-4 rounded-lg bg-purple-1/50 px-4 py-2 text-sm font-semibold shadow transition-shadow hover:shadow-xl">
+              View Shows
+            </button>
+          </a>
+        </div>
+      </div>
+
+      <!-- Educators -->
+      <div class="rounded-xl bg-[#EFE1EF] px-4 pb-4 pt-5">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#ED03EC" viewBox="0 0 256 256" class="mb-6">
+          <path d="M249.8,85.49l-116-64a12,12,0,0,0-11.6,0Z"></path>
+        </svg>
+
+        <h2 class="text-lg font-semibold">Educators</h2>
+        <p class="mt-3 text-sm leading-[1.2rem] text-[#2F343C]">
+          From Burlesque Schools to individual tutors, if you're teaching the art or
+          any skills related to it, register here so people can find new resources to
+          learn from.
+        </p>
+
+        <div class="flex justify-center">
+          <a href="/educators">
+            <button class="mt-4 rounded-lg bg-purple-1/50 px-4 py-2 text-sm font-semibold shadow transition-shadow hover:shadow-xl">
+              Become an Educator
+            </button>
+          </a>
+        </div>
+      </div>
+
+      <!-- Festivals -->
+      <div class="rounded-xl bg-[#EFE1EF] px-4 pb-4 pt-5">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#ED03EC" viewBox="0 0 256 256" class="mb-6">
+          <path d="M114.32,49.8A19.79,19.79,0,0,0,81.72,57Z"></path>
+        </svg>
+
+        <h2 class="text-lg font-semibold">Festivals</h2>
+        <p class="mt-3 text-sm leading-[1.2rem] text-[#2F343C]">
+          Do you run a Festival? Register it here so we know when we can submit and when
+          we can buy tickets to cheer on our friends. We'd love to know to help support
+          you.
+        </p>
+
+        <div class="flex justify-center">
+          <a href="/festivals">
+            <button class="mt-4 rounded-lg bg-purple-1/50 px-4 py-2 text-sm font-semibold shadow transition-shadow hover:shadow-xl">
+              View Festivals
+            </button>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
   </body>
 </html>
